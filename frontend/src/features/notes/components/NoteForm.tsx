@@ -4,34 +4,48 @@ import { Textarea } from '@mui/joy';
 import { LoadingButton } from '@mui/lab';
 import SendIcon from '@mui/icons-material/Send';
 import FileInput from '../../../UI/FileInput/FileInput';
-import {SendNote} from "../../../types";
+import { NoteMutation } from '../../../types';
 
-const NoteForm = () => {
-    const [note, setNote] = React.useState<SendNote>({
-        author: '',
-        note: '',
-        image: null,
-    });
+interface Props {
+  onSubmit: (note: NoteMutation) => void;
+  isLoading: boolean;
+}
 
-    const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const {name, value} = event.target;
-        setNote(prevState => ({
-            ...prevState,
-            [name]: value,
-        }));
-    };
+const NoteForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
+  const [note, setNote] = React.useState<NoteMutation>({
+    author: '',
+    note: '',
+    image: null,
+  });
 
-    const fileInputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, files} = event.target;
-        const value = files && files[0] ? files[0] : null
-        setNote((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }))
-    };
+  const onFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit(note);
+  };
+
+  const inputChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = event.target;
+    setNote((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const fileInputChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { name, files } = event.target;
+    const value = files && files[0] ? files[0] : null;
+    setNote((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
   return (
     <>
-      <form className="form">
+      <form className="form" onSubmit={onFormSubmit}>
         <TextField
           style={{ width: 500, marginBottom: 30 }}
           label="Username"
@@ -54,7 +68,11 @@ const NoteForm = () => {
           value={note.note}
         />
 
-        <FileInput onChange={fileInputChangeHandler} name="image" label="File" />
+        <FileInput
+          onChange={fileInputChangeHandler}
+          name="image"
+          label="File"
+        />
 
         <LoadingButton
           size="medium"
