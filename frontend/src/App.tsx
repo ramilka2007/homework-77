@@ -1,5 +1,5 @@
 import './App.css';
-import Notes from "./features/notes/components/Notes";
+import Notes from './features/notes/Notes';
 
 const App = () => {
   return (

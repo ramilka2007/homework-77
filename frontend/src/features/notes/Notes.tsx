@@ -1,6 +1,6 @@
 import React from 'react';
-import NoteForm from './NoteForm';
-import OneNote from "./OneNote";
+import NoteForm from './components/NoteForm';
+import OneNote from './components/OneNote';
 
 const Notes = () => {
   return (
