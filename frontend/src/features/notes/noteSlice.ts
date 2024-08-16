@@ -20,6 +20,18 @@ export const notesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(allNotes.pending, (state: NotesState) => {
+        state.notesFetching = true;
+      })
+      .addCase(allNotes.fulfilled, (state: NotesState, { payload: notes }) => {
+        state.notesFetching = false;
+        state.notes = notes;
+      })
+      .addCase(allNotes.rejected, (state: NotesState) => {
+        state.notesFetching = false;
+      });
+
+    builder
       .addCase(createNote.pending, (state: NotesState) => {
         state.isCreating = true;
       })

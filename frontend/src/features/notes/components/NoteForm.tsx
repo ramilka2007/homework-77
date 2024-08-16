@@ -78,6 +78,8 @@ const NoteForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
           size="medium"
           loadingPosition="end"
           endIcon={<SendIcon />}
+          disabled={note.note === ''}
+          loading={isLoading}
           variant="contained"
           type="submit"
           style={{ marginTop: '20px' }}

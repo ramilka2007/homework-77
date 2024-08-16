@@ -1,6 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { NoteMutation } from '../../types';
+import { Note, NoteMutation } from '../../types';
 import axiosApi from '../../axiosApi';
+
+export const allNotes = createAsyncThunk<Note[]>(
+  'notes/fetchNotes',
+  async () => {
+    const { data: notes } = await axiosApi.get<Note[] | null>('/notes');
+    return notes;
+  },
+);
 
 export const createNote = createAsyncThunk<void, NoteMutation>(
   'notes/create',

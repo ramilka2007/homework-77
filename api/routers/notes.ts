@@ -5,6 +5,11 @@ import {NoteMutation} from "../types";
 
 const notesRouter = express.Router();
 
+notesRouter.get('/', async (req, res) => {
+    const notes = await fileDb.getItems();
+    return res.send(notes);
+});
+
 notesRouter.post('/', imagesUpload.single('image'), async (req, res) => {
     if (!req.body.note) {
         return res.status(400).send({error: 'Title and price are required!'});
